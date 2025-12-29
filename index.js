@@ -2,7 +2,7 @@ import express from "express"
 import fs from 'fs/promises'
 const app = express()
 app.get("/", async (req, res) => {
-  let count = await fs.readFile("count.txt", "utf8")
+  let count = await fs.readFile("./count.txt", "utf8")
   count++;
   res.send(`
     <!DOCTYPE html>
@@ -17,7 +17,7 @@ app.get("/", async (req, res) => {
     </body>
     </html>  
   `)
-  await fs.writeFile("count.txt",count.toString(),"utf8")
+  await fs.writeFile("./count.txt",count.toString(),"utf8")
 })
 app.listen(3000, () => {
   console.log("http://localhost:3000")
