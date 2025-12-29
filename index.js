@@ -1,8 +1,12 @@
 import express from "express"
-import fs from 'fs/promises'
+import { createClient } from 'redis'
 const app = express()
+const client = createClient({
+  url: process.env.REDIS_URL
+})
+await client.connect()
+let count = await client.get("count")
 app.get("/", async (req, res) => {
-  let count = await fs.readFile("./count.txt", "utf8")
   count++;
   res.send(`
     <!DOCTYPE html>
@@ -17,7 +21,7 @@ app.get("/", async (req, res) => {
     </body>
     </html>  
   `)
-  await fs.writeFile("./count.txt",count.toString(),"utf8")
+  await client.set("count",count)
 })
 app.listen(3000, () => {
   console.log("http://localhost:3000")
