@@ -3,6 +3,5 @@ const client = createClient({
   url: process.env.REDIS_URL
 })
 await client.connect()
-await client.set("count", 0)
-console.log("Reseted.")
+console.log(await client.get("count"))
 await client.quit()
